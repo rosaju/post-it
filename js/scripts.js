@@ -32,8 +32,8 @@ function atualizarSecao(secao) {
 
 function adicionarNota(inputText, textareaBody, formulario, secao, posicao){
     if (posicao === undefined) {
-        
-        var nota = {
+       // criar uma variável nota       
+         var nota = {
             titulo: inputText.value,
             texto: textareaBody.value,
             editando: false
@@ -47,9 +47,10 @@ function adicionarNota(inputText, textareaBody, formulario, secao, posicao){
 
         // limpar o formulário
         formulario.reset();
+        
 
     } else { 
-        // pegar nota
+         // pegar nota
         notas[posicao].titulo = inputText.value;
         notas[posicao].texto = textareaBody.value;
         notas[posicao].editando = false;
@@ -58,18 +59,7 @@ function adicionarNota(inputText, textareaBody, formulario, secao, posicao){
 
         // chamar e atualizar secao
         atualizarSecao(secao);
-
-        // criar uma variável nota       
-        
     }
-}
-
-function editaFormulario(posicao, secao) {
-    // pegar notas e setar editando = true
-    notas[posicao].editando = true;
-
-    // chamo o atualiza tela
-    atualizarSecao(secao);
 }
 
 function removerNota(posicao, secao) {
@@ -80,3 +70,10 @@ function removerNota(posicao, secao) {
     atualizarSecao(secao);
 }
 
+function editaFormulario(posicao, secao) {
+    // pegar notas e setar editando = true
+    notas[posicao].editando = true;
+
+    // chamo o atualiza tela
+    atualizarSecao(secao);
+}

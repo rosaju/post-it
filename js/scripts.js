@@ -7,16 +7,16 @@ function atualizarSecao(secao) {
     // percorrer cada item da lista de notas e criar o template de cada nota 
     for (var posicao = 0; posicao < notas.length; posicao++) {
         if (notas[posicao].editando){
-            // template + textarea
+            // template input + textarea
             conteudoSecao += '<form class="note">' + 
-                                '<input class="note__title" type="text" name="title" placeholder="Título" autofocus />' +
-                                '<textarea class="note__body" name="body" rows="5" placeholder="Criar uma nota..."></textarea>' +
-                                '<button class="note__control" type="button" onclick="adicionarNota(this.form.title, this.form.body, this.form, this.form.nextElementSibling)">' +
-                                'Concluído' +
+                                '<input class="note__title" type="text" name="title" value="' + notas[posicao].titulo + '"placeholder="Título" autofocus />' +
+                                '<textarea class="note__body" name="body" rows="5" placeholder="Criar uma nota...">' + notas[posicao].texto + '</textarea>' +
+                                '<button class="note__control" type="button" onclick="adicionarNota(this.parentElement.title, this.parentElement.body, this.parentElement, this.parentElement.parentElement, ' + posicao + ')">' +
+                                    'Concluído' +
                                 '</button>' +
                              '</form>'
         } else {
-            conteudoSecao += '<form class="note" onclick="editaFormulario()">' +
+            conteudoSecao += '<form class="note" onclick="editaFormulario(' + posicao + ', this.parentElement)">' +
                                 '<button class="note__control" type="button" onclick="removerNota(' + posicao + ', this.form.parentElement)">' +
                                 '<i class="fa fa-times" aria-hidden="true"></i>' +
                                 '</button>' +
@@ -30,25 +30,41 @@ function atualizarSecao(secao) {
     secao.innerHTML = conteudoSecao;
 }
 
-function adicionarNota(inputText, textareaBody, formulario, secao){
-    // criar uma variável nota
-     var nota = {
-         titulo: inputText.value,
-         texto: textareaBody.value
-     };
+function adicionarNota(inputText, textareaBody, formulario, secao, posicao){
+    if (posicao === undefined) {
+        
+        var nota = {
+            titulo: inputText.value,
+            texto: textareaBody.value,
+            editando: false
+        };
 
-    // adicionar nota dentro da lista
-    notas.push(nota);
+        // adicionar nota dentro da lista
+        notas.push(nota);
 
-    // atualizar a seção de notas
-    atualizarSecao(secao);
+        // atualizar a seção de notas
+        atualizarSecao(secao);
 
-    // limpar o formulário
-    formulario.reset();
+        // limpar o formulário
+        formulario.reset();
 
+    } else { 
+        // pegar nota
+        notas[posicao].titulo = inputText.value;
+        notas[posicao].texto = textareaBody.value;
+        notas[posicao].editando = false;
+
+        //trocar titulo e o texto dela
+
+        // chamar e atualizar secao
+        atualizarSecao(secao);
+
+        // criar uma variável nota       
+        
+    }
 }
 
-function editaFormulario(posicao) {
+function editaFormulario(posicao, secao) {
     // pegar notas e setar editando = true
     notas[posicao].editando = true;
 

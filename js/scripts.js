@@ -1,53 +1,46 @@
-var listaNotas = {
+const listaNotas = {
     secao: document.getElementsByClassName('notes')[0],
     listaInterna: [],
-    adicionaNota: (novoTitulo, novoTexto) => {
-        var nota = {
+    adicionaNota(novoTitulo, novoTexto) {
+        let nota = {
             titulo: novoTitulo,
             texto: novoTexto,
             editando: false
         };
-
         this.listaInterna.push(nota);
-
-        //atualizar seção
         atualizarSecao(this.secao);
     },
-    removeNota: (posicao) => {
+    removeNota(posicao) {
         this.listaInterna.splice(posicao, 1);
-
-        //atualizar seção
         atualizarSecao(this.secao);        
     },
-    editaNota: (posicao) => {
+    editaNota(posicao) {
         this.listaInterna[posicao].editando = true;
-
-        //atualizar seção
         atualizarSecao(this.secao);
     },
-    salvaNota: (posicao, novoTitulo, novoTexto) => {
+    salvaNota(posicao, novoTitulo, novoTexto) {
         this.listaInterna[posicao].titulo = novoTitulo;
         this.listaInterna[posicao].texto = novoTexto;
         this.listaInterna[posicao].editando = false;
-
-        //atualizar seção
         atualizarSecao(this.secao);
     },
-    pegaNota: (posicao) => {
+    pegaNota(posicao) {
         return this.listaInterna[posicao];
     },
-    contaTotal: () => {
+
+    contaTotal() {
         return this.listaInterna.length;
     }
 };
 
-atualizarSecao = (secao) => {
+const atualizarSecao = (secao) => {
     // criar uma variavel que vai guardar o html de todas as notas que devem aparecer na tela
-    var conteudoSecao = "";
+    let conteudoSecao = "";
 
     // percorrer cada item da lista de notas, criar o html de cada nota e colocar na variavel acima
-    for (var posicao = 0; posicao < listaNotas.contaTotal(); posicao++) {
-        var notaAtual = listaNotas.pegaNota(posicao);
+    for (let posicao = 0; posicao < listaNotas.contaTotal(); posicao++) {
+
+        let notaAtual = listaNotas.pegaNota(posicao);
 
         if (notaAtual.editando) {
             conteudoSecao += `<form class="note">
@@ -67,16 +60,12 @@ atualizarSecao = (secao) => {
                              </form>`;
         }
     }
-
-    // colocar o html de todo mundo dentro (inner) da secao
     secao.innerHTML = conteudoSecao;
 }
 
-editaFormulario = (posicao) => {
-    listaNotas.editaNota(posicao);
-}
+const editaFormulario = (posicao) => listaNotas.editaNota(posicao);
 
-adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) => {
+const adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) => {
     if (listaNotas.pegaNota(posicao)) {
         listaNotas.salvaNota(posicao, inputTitulo.value, textareaTexto.value);
     } else {
@@ -85,7 +74,7 @@ adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) => {
         }
 }
 
-removerNota = (event, posicao) => {
+ const removerNota = (event, posicao) => {
     event.stopPropagation();
     listaNotas.removeNota(posicao);
 }

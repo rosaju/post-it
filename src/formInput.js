@@ -6,6 +6,10 @@ function FormInput(props) { // <input class="note__title" type="text" name="titu
     formInput.setAttribute('value', props.value);
     formInput.setAttribute('placeholder', props.placeholder);
 
+    if (props.readonly) {
+        form.setAttribute('readonly', true);
+    }
+
     return formInput;
     
 }

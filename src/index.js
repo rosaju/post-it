@@ -1,37 +1,13 @@
-const listaNotas = {
-    secao: document.getElementsByClassName('notes')[0],
-    listaInterna: [],
-    adicionaNota(novoTitulo, novoTexto) {
-        let nota = {
-            titulo: novoTitulo,
-            texto: novoTexto,
-            editando: false
-        };
-        this.listaInterna.push(nota);
-        atualizarSecao(this.secao);
-    },
-    removeNota(posicao) {
-        this.listaInterna.splice(posicao, 1);
-        atualizarSecao(this.secao);        
-    },
-    editaNota(posicao) {
-        this.listaInterna[posicao].editando = true;
-        atualizarSecao(this.secao);
-    },
-    salvaNota(posicao, novoTitulo, novoTexto) {
-        this.listaInterna[posicao].titulo = novoTitulo;
-        this.listaInterna[posicao].texto = novoTexto;
-        this.listaInterna[posicao].editando = false;
-        atualizarSecao(this.secao);
-    },
-    pegaNota(posicao) {
-        return this.listaInterna[posicao];
-    },
+import ListaNotas from './listaNotas';
 
-    contaTotal() {
-        return this.listaInterna.length;
-    }
-};
+let secao = document.getElementsByClassName('notes')[0];
+
+function observador() {
+    atualizarSecao(secao);
+}
+
+const listaNotas = new ListaNotas(observador);
+
 
 const atualizarSecao = (secao) => {
     // criar uma variavel que vai guardar o html de todas as notas que devem aparecer na tela
@@ -63,9 +39,9 @@ const atualizarSecao = (secao) => {
     secao.innerHTML = conteudoSecao;
 }
 
-const editaFormulario = (posicao) => listaNotas.editaNota(posicao);
+window.editaFormulario = (posicao) => listaNotas.editaNota(posicao);
 
-const adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) => {
+window.adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) => {
     if (listaNotas.pegaNota(posicao)) {
         listaNotas.salvaNota(posicao, inputTitulo.value, textareaTexto.value);
     } else {
@@ -74,7 +50,7 @@ const adicionarNota = (inputTitulo, textareaTexto, formulario, secao, posicao) =
         }
 }
 
- const removerNota = (event, posicao) => {
+window.removerNota = (event, posicao) => {
     event.stopPropagation();
     listaNotas.removeNota(posicao);
 }

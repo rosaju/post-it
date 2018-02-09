@@ -1,3 +1,0 @@
-function FormIndex() {
-    // let formIndex = 
-}

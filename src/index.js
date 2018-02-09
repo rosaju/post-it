@@ -1,4 +1,5 @@
 import ListaNotas from './listaNotas';
+import FormNotas from './formNotas';
 
 let secao = document.getElementsByClassName('notes')[0];
 
@@ -54,3 +55,40 @@ window.removerNota = (event, posicao) => {
     event.stopPropagation();
     listaNotas.removeNota(posicao);
 }
+
+/* window.atualizarSecao = secao => {
+    while (secao.firstChild) {
+        secao.removeChild(secao.firstChild);
+    };
+
+    for (let posicao = 0; posicao < listaNotas.contaTotal(); posicao++) {
+        let notaAtual = listaNotas.pega(posicao);
+
+        const propsFormNotas = {
+            posicao: posicao,
+            notaAtual: notaAtual,
+            editarFormulario: editaFormulario,
+            adicionarNota:adicionarNota,
+            removerNota: removerNota
+        }
+
+        let formNotas = new FormNotas(propsFormNotas);
+        secao.appendChild(formNotas);
+    }
+}
+
+window.editaFormulario = posicao => listaNotas.edita(posicao);
+
+window.adicionarNota = (inputTitulo, textareaTexto, formulario, posicao) => {
+    if (listaNotas.pega(posicao)) {
+        listaNotas.salva(posicao, inputTitulo.value, textareaTexto.value);
+    } else {
+        listaNotas.adiciona(inputTitulo.value, textareaTexto.value);
+        formulario.reset();
+    }
+}
+
+window.removerNota = (evento, posicao) => {
+    evento.stopPropagation();
+    listaNotas.remove(posicao);
+} */ 

@@ -10,3 +10,15 @@ function FormButton(props) {
 }
 
 export default FormButton;
+
+/* 
+import React from 'react'
+
+function FormButton(props, children) {
+    return React.createElement('button', props, props.children);
+
+}
+
+export default FormButton; 
+
+*/

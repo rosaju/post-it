@@ -1,3 +1,10 @@
+import React from 'react';
+
+function FormImput (props) {
+    
+}
+
+/*
 function FormInput(props) { // <input class="note__title" type="text" name="titulo" value="${notaAtual.titulo}" placeholder="Título">
     let formInput = document.createElement('input');
     formInput.setAttribute('class', props.className);
@@ -15,3 +22,4 @@ function FormInput(props) { // <input class="note__title" type="text" name="titu
 }
 
 export default FormInput;
+*/

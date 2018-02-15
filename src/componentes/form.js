@@ -1,3 +1,8 @@
+import React from 'react'
+
+export default (props, children) => React.createElement('form', props, children)
+
+/*
 function Form(props); {
     let form = document.forms('form');
     form.setAttribute('class', props.className);
@@ -17,3 +22,4 @@ function Form(props); {
 }
 
 export default Form;
+*/

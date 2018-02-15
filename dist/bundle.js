@@ -733,11 +733,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Nota = function () {
     function Nota(novoTitulo, novoTexto) {
+        var novoEditando = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
         _classCallCheck(this, Nota);
 
         this._titulo = novoTitulo;
         this._texto = novoTexto;
-        this._editando = false;
+        this._editando = novoEditando;
     }
 
     _createClass(Nota, [{
@@ -786,6 +788,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _react = __webpack_require__(11);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _formInput = __webpack_require__(10);
 
 var _formInput2 = _interopRequireDefault(_formInput);
@@ -802,71 +808,101 @@ var _form = __webpack_require__(18);
 
 var _form2 = _interopRequireDefault(_form);
 
+var _nota = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../nota\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+var _nota2 = _interopRequireDefault(_nota);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function FormNotas(props) {
-    var formNotas = void 0;
-
-    var propsInput = { //class="note__title" type="text" name="titulo" value="${'ldsd'}" placeholder="Título"
+// definir propriedades do componente
+// criar e retornar um elemento que será o FormInput
+function criaComponenteInputTitulo(notaAlterada) {
+    var props = {
         className: 'note__title',
         type: 'text',
         name: 'titulo',
-        value: props.notaAtual.titulo,
-        placeholder: 'Título'
+        placeholder: 'Título',
+        readOnly: !notaAlterada.editando,
+        defaultValue: notaAlterada.titulo,
+        onChange: function onChange(event) {
+            notaAlterada.titulo = event.target.value;
+        }
     };
 
-    var inputTitulo = new _formInput2.default(propsInput);
+    return _react2.default.createElement(_formInput2.default, props);
+}
 
-    var propsTextarea = { // <textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>
+// definir propriedades do componente
+// criar e retornar um elemento que será o FormTextarea
+function criaComponenteTextareaTexto(notaAlterada) {
+    var props = {
         className: 'note__body',
         name: 'texto',
         rows: 5,
         placeholder: 'Criar uma nota...',
-        innerText: props.notaAtual.texto
+        readOnly: !notaAlterada.editando,
+        defaultValue: notaAlterada.texto,
+        onChange: function onChange(event) {
+            notaAlterada.texto = event, target.value;
+        }
     };
 
-    var textareaTexto = new _formTextarea2.default(propsTextarea);
+    return _react2.default.createElement(_formTextarea2.default, props);
+}
 
-    var click = void 0;
+function criaComponenteButtonRemover(removerNota, posicao) {
+    var props = {
+        className: 'note__control',
+        type: 'button',
+        children: _react2.default.createElement('i', { 'class': 'fa fa-times', 'aria-hidden': 'true' }), // children precisa virar um const
+        onClick: function onClick(event) {
+            return removerNota(event, posicao);
+        }
+    };
+
+    return _react2.default.createElement(_formButton2.default, props, children);
+}
+
+function criaComponenteButtonConcluido(adicionarNota, posicao, notaAlterada) {
+    var ButtonConcluido = {
+        className: 'note__control',
+        type: 'button',
+        children: 'Concluído',
+        click: function click(event) {
+            return adicionarNota(notaAlterada.titulo, notaAlterada.texto, event.target.form, posicao);
+        }
+    };
+
+    return _react2.default.createElement(_formButton2.default, props, children);
+}
+
+function FormNotas(props) {
+    var notaAlterada = new _nota2.default(props.notaAtual.titulo, props.notaAtual.texto, props.notaAtual.editando);
+    var formNotas = void 0;
+
+    var inputTitulo = criaComponenteInputTitulo(notaAlterada);
+
+    var textareaTexto = criaComponenteTextareaTexto(notaAlterada);
+
+    var formProps = { className: 'note' };
+
+    var onClick = void 0;
     var children = void 0;
 
     if (props.notaAtual.editando) {
-        var propsButtonRemover = {
-            className: 'note__control',
-            type: 'button',
-            children: '<i class="fa fa-times" aria-hidden="true"></i>',
-            click: function click(event) {
-                props.removerNota(event, props.posicao);
-            }
-        };
+        var buttonRemover = criaComponenteButtonRemover(props.removerNota, props.posicao);
 
-        var buttonRemover = new _formButton2.default(propsButtonRemover);
-
-        var propsButtonConcluido = {
-            className: 'note__control',
-            type: 'button',
-            children: 'Concluído',
-            click: function click() {
-                props.adicionarNota(inputTitulo, textareaTexto, formNotas, props.posicao);
-            }
-        };
-        var buttonConcluido = new _formButton2.default(propsButtonConcluido);
+        var buttonConcluido = criaComponenteButtonConcluido(props.adicionarNota, props.posicao, notaAlterada);
 
         children = [buttonRemover, inputTitulo, textareaTexto, buttonConcluido];
     } else {
         children = [inputTitulo, textareaTexto];
-        click = function click() {
+        onClick = function onClick() {
             props.editarFormulario(props.posicao);
         };
     }
 
-    var propsFormNotas = {
-        className: 'note',
-        children: children,
-        click: click
-    };
-
-    formNotas = new _form2.default(propsFormNotas);
+    formNotas = _react2.default.createElement(_form2.default, formProps, children);
 
     return formNotas;
 }
@@ -880,13 +916,19 @@ exports.default = FormNotas;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _react = __webpack_require__(11);
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function FormImput(props) {}
+exports.default = function (props) {
+    return _react2.default.createElement('input', props);
+};
 
 /*
 function FormInput(props) { // <input class="note__title" type="text" name="titulo" value="${notaAtual.titulo}" placeholder="Título">
@@ -2412,9 +2454,20 @@ module.exports = ReactPropTypesSecret;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function FormTextarea(props) {
-    //<textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>
-    var formTextarea = document.createElement('textarea');
+
+var _react = __webpack_require__(11);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+    return _react2.default.createElement('textarea', props);
+};
+
+/*
+function FormTextarea(props) { //<textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>
+    let formTextarea = document.createElement('textarea');
     formTextarea.setAttribute('class', props.className);
     formTextarea.setAttribute('name', props.name);
     formTextarea.setAttribute('rows', props.rows);
@@ -2424,7 +2477,8 @@ function FormTextarea(props) {
     return formTextarea;
 }
 
-exports.default = FormInput;
+export default FormInput;
+*/
 
 /***/ }),
 /* 17 */
@@ -2436,8 +2490,20 @@ exports.default = FormInput;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function FormButton(props) {
-    var formButton = document.createElement('button');
+
+var _react = __webpack_require__(11);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props, children) {
+    return _react2.default.createElement('button', props, children);
+};
+
+/* 
+function FormButton(props) { 
+    let formButton = document.createElement('button');
     formButton.setAttribute('class', props.className);
     formButton.setAttribute('type', props.type);
     formButton.addEventListener('click', props.click);
@@ -2447,25 +2513,51 @@ function FormButton(props) {
     return formButton;
 }
 
-exports.default = FormButton;
-
-/* 
-import React from 'react'
-
-function FormButton(props, children) {
-    return React.createElement('button', props, props.children);
-
-}
-
-export default FormButton; 
-
+export default FormButton;
 */
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: C:/Users/05980940910/Desktop/post-it/src/componentes/form.js: Unexpected token, expected { (1:20)\n\n> 1 | function Form(props); {\n    |                     ^\n  2 |     let form = document.forms('form');\n  3 |     form.setAttribute('class', props.className);\n  4 |     form.setAttribute('editando', props.editando);\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(11);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props, children) {
+    return _react2.default.createElement('form', props, children);
+};
+
+/*
+function Form(props); {
+    let form = document.forms('form');
+    form.setAttribute('class', props.className);
+    form.setAttribute('editando', props.editando);
+
+    for (var i = 0; i < props.children.length; i++) {
+        form.appendchild(props.children[i]);
+
+    } 
+
+    if (props.click) {
+        form.addEventListener("click", props.click);
+    }
+
+    return form;
+
+}
+
+export default Form;
+*/
 
 /***/ })
 /******/ ]);

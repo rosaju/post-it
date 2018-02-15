@@ -1,3 +1,9 @@
+import React from 'react'
+
+export default (props, children) => React.createElement('button', props, children)
+
+
+/* 
 function FormButton(props) { 
     let formButton = document.createElement('button');
     formButton.setAttribute('class', props.className);
@@ -10,15 +16,4 @@ function FormButton(props) {
 }
 
 export default FormButton;
-
-/* 
-import React from 'react'
-
-function FormButton(props, children) {
-    return React.createElement('button', props, props.children);
-
-}
-
-export default FormButton; 
-
-*/
+*/ 

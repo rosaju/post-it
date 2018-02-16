@@ -4,8 +4,6 @@ import SecaoNotas from './secaoNotas'
 import Nota from '../nota'
 import ListaNotas from '../listaNotas'
 
-const listaNotas = new ListaNotas(observaMudancasLista);
-
 function montaFormNotas(adicionarNota, removerNota, editarFormulario) {
     const props = {
         notaAtual: new Nota('', ''),

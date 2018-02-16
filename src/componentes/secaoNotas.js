@@ -15,13 +15,9 @@ function criaFormNotas(listaNotas, notaAtual, adicionarNota, removerNota, editar
 }
 
 function SecaoNotas({ listaNotas, adicionarNota, removerNota, editarFormulario }) {
-    const props =  {className: 'notes'};
+    const props =  { className: 'notes' };
 
-    const children = [];
-    for (var i = 0; i < listaNotas.contaTotal(); i++) {
-        let formNotas = criaFormNotas(listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario, i);
-        children.push(formNotas);
-    }
+    const children = listaNotas.map((notaAtual, i) => (criaFormNotas(i, props)));
 
     return React.createElement(Section, props, children);
 }

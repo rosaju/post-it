@@ -1,8 +1,8 @@
 import React from 'react'
-import FormInput from './componentes/formInput'
-import FormTextarea from './componentes/formTextarea'
-import FormButton from './componentes/formButton'
-import Form from './componentes/form'
+import FormInput from './formInput'
+import FormTextarea from './formTextarea'
+import FormButton from './formButton'
+import Form from './form'
 import Nota from '../nota';
 
 // definir propriedades do componente

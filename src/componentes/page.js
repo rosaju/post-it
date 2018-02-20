@@ -6,6 +6,7 @@ import ListaNotas from '../listaNotas'
 
 function montaFormNotas(adicionarNota, removerNota, editarFormulario) {
     const props = {
+        key: 'form-note',
         notaAtual: new Nota('', ''),
         adicionarNota: adicionarNota,
         removerNota: removerNota,
@@ -17,6 +18,7 @@ function montaFormNotas(adicionarNota, removerNota, editarFormulario) {
 
 function montaSectionNotas(listaNotas, adicionarNota, removerNota, editarFormulario) {
     const props = {
+        key: 'section-notes',
         listaNotas: listaNotas,
         adicionarNota: adicionarNota,
         removerNota: removerNota,
@@ -29,26 +31,28 @@ function montaSectionNotas(listaNotas, adicionarNota, removerNota, editarFormula
 class Page extends React.Component {
     constructor(props) {
         super(props);
+
+        this.atualizaPagina = this.atualizaPagina.bind(this)
+        this.adicionarNota = this.adicionarNota.bind(this)
+        this.removeNota = this.removeNota.bind(this)
+        this.editarFormulario = this.editarFormulario.bind(this)
         
-        this.state = {
-            listaNotas: new ListaNotas(this.atualizaPagina)
-        }
+        this.state = { listaNotas: new ListaNotas(this.atualizaPagina) }
     }
 
     atualizaPagina(novaLista) {
-        console.log('Quem é this?', this);
         this.setState({ listaNotas: novaLista });
     }
 
     editarFormulario(posicao) {
-        this.listaNotas.edita(posicao);
+        this.state.listaNotas.edita(posicao);
     }
 
-    adicionarNota(inputTitulo, textareaTexto, formulario, posicao) {
-        if (this.listaNotas.pegaNota(posicao)) {
-            this.listaNotas.salvaNota(posicao, inputTitulo.value, textareaTexto.value);
+    adicionarNota(titulo, texto, formulario, posicao) {
+        if (this.state.listaNotas.pegaNota(posicao)) {
+            this.state.listaNotas.salvaNota(posicao, titulo, texto);
         } else {
-            this.listaNotas.adicionaNota(inputTitulo.value, textareaTexto.value);
+            this.state.listaNotas.adicionaNota(titulo, texto);
             formulario.reset();
         }
     }

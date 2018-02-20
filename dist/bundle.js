@@ -1033,42 +1033,51 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // definir propriedades do componente
 // criar e retornar um elemento que será o FormInput
-function criaComponenteInputTitulo(notaAlterada) {
+function criaComponenteInputTitulo(notaAlterada, posicao) {
     var props = {
+        key: 'note-title',
         className: 'note__title',
         type: 'text',
         name: 'titulo',
         placeholder: 'Título',
-        readOnly: !notaAlterada.editando,
         defaultValue: notaAlterada.titulo,
         onChange: function onChange(event) {
-            notaAlterada.titulo = event.target.value;
+            return notaAlterada.titulo = event.target.value;
         }
     };
+
+    if (posicao !== undefined && notaAlterada.editando) {
+        props.readOnly = true;
+    }
 
     return _react2.default.createElement(_formInput2.default, props);
 }
 
 // definir propriedades do componente
 // criar e retornar um elemento que será o FormTextarea
-function criaComponenteTextareaTexto(notaAlterada) {
+function criaComponenteTextareaTexto(notaAlterada, posicao) {
     var props = {
+        key: 'note-text',
         className: 'note__body',
         name: 'texto',
         rows: 5,
         placeholder: 'Criar uma nota...',
-        readOnly: !notaAlterada.editando,
         defaultValue: notaAlterada.texto,
         onChange: function onChange(event) {
-            notaAlterada.texto = event.target.value;
+            return notaAlterada.texto = event.target.value;
         }
     };
+
+    if (posicao !== undefined && notaAlterada.editando) {
+        props.readOnly = true;
+    }
 
     return _react2.default.createElement(_formTextarea2.default, props);
 }
 
 function criaComponenteButtonRemover(removerNota, posicao) {
     var props = {
+        key: 'note-button',
         className: 'note__control',
         type: 'button',
         // children: <i class="fa fa-times" aria-hidden="true"></i>,
@@ -1083,11 +1092,12 @@ function criaComponenteButtonRemover(removerNota, posicao) {
 }
 
 function criaComponenteButtonConcluido(adicionarNota, posicao, notaAlterada) {
-    var ButtonConcluido = {
+    var props = {
+        key: 'note-button-concluido',
         className: 'note__control',
         type: 'button',
         children: 'Concluído',
-        click: function click(event) {
+        onClick: function onClick(event) {
             return adicionarNota(notaAlterada.titulo, notaAlterada.texto, event.target.form, posicao);
         }
     };
@@ -1109,26 +1119,26 @@ function FormNotas(_ref) {
 
     var notaAlterada = new _nota2.default(notaAtual.titulo, notaAtual.texto, notaAtual.editando);
 
-    var inputTitulo = criaComponenteInputTitulo(notaAlterada);
-
-    var textareaTexto = criaComponenteTextareaTexto(notaAlterada);
+    var inputTitulo = criaComponenteInputTitulo(notaAlterada, posicao);
+    var textareaTexto = criaComponenteTextareaTexto(notaAlterada, posicao);
+    var buttonRemover = criaComponenteButtonRemover(removerNota, posicao);
+    var buttonConcluido = criaComponenteButtonConcluido(adicionarNota, posicao, notaAlterada);
 
     var props = { className: 'note' };
 
     var children = void 0;
 
-    if (notaAlterada.editando) {
-        var buttonRemover = criaComponenteButtonRemover(removerNota, posicao);
-
-        var buttonConcluido = criaComponenteButtonConcluido(adicionarNota, posicao, notaAlterada);
-
-        children = [buttonRemover, inputTitulo, textareaTexto, buttonConcluido];
+    if (posicao === undefined) {
+        children = [inputTitulo, textareaTexto, buttonConcluido];
     } else {
-        children = [inputTitulo, textareaTexto];
-
-        props.onClick = function () {
-            return editarFormulario(posicao);
-        };
+        if (notaAlterada.editando) {
+            children = [buttonRemover, inputTitulo, textareaTexto, buttonConcluido];
+        } else {
+            children = [inputTitulo, textareaTexto];
+            props.onClick = function () {
+                return editarFormulario(posicao);
+            };
+        }
     }
 
     return _react2.default.createElement(_form2.default, props, children);
@@ -18510,6 +18520,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function montaFormNotas(adicionarNota, removerNota, editarFormulario) {
     var props = {
+        key: 'form-note',
         notaAtual: new _nota2.default('', ''),
         adicionarNota: adicionarNota,
         removerNota: removerNota,
@@ -18521,6 +18532,7 @@ function montaFormNotas(adicionarNota, removerNota, editarFormulario) {
 
 function montaSectionNotas(listaNotas, adicionarNota, removerNota, editarFormulario) {
     var props = {
+        key: 'section-notes',
         listaNotas: listaNotas,
         adicionarNota: adicionarNota,
         removerNota: removerNota,
@@ -18538,30 +18550,32 @@ var Page = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this, props));
 
-        _this.state = {
-            listaNotas: new _listaNotas2.default(_this.atualizaPagina)
-        };
+        _this.atualizaPagina = _this.atualizaPagina.bind(_this);
+        _this.adicionarNota = _this.adicionarNota.bind(_this);
+        _this.removeNota = _this.removeNota.bind(_this);
+        _this.editarFormulario = _this.editarFormulario.bind(_this);
+
+        _this.state = { listaNotas: new _listaNotas2.default(_this.atualizaPagina) };
         return _this;
     }
 
     _createClass(Page, [{
         key: 'atualizaPagina',
         value: function atualizaPagina(novaLista) {
-            console.log('Quem é this?', this);
             this.setState({ listaNotas: novaLista });
         }
     }, {
         key: 'editarFormulario',
         value: function editarFormulario(posicao) {
-            this.listaNotas.edita(posicao);
+            this.state.listaNotas.edita(posicao);
         }
     }, {
         key: 'adicionarNota',
-        value: function adicionarNota(inputTitulo, textareaTexto, formulario, posicao) {
-            if (this.listaNotas.pegaNota(posicao)) {
-                this.listaNotas.salvaNota(posicao, inputTitulo.value, textareaTexto.value);
+        value: function adicionarNota(titulo, texto, formulario, posicao) {
+            if (this.state.listaNotas.pegaNota(posicao)) {
+                this.state.listaNotas.salvaNota(posicao, titulo, texto);
             } else {
-                this.listaNotas.adicionaNota(inputTitulo.value, textareaTexto.value);
+                this.state.listaNotas.adicionaNota(titulo, texto);
                 formulario.reset();
             }
         }
@@ -18683,8 +18697,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props, children) {
-    return _react2.default.createElement('button', props, children);
+exports.default = function (props) {
+    return _react2.default.createElement('button', props);
 };
 
 /* 
@@ -18719,8 +18733,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props, children) {
-    return _react2.default.createElement('form', props, children);
+exports.default = function (props) {
+    return _react2.default.createElement('form', props);
 };
 
 /*
@@ -18770,8 +18784,9 @@ var _formNotas2 = _interopRequireDefault(_formNotas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function criaFormNotas(listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario, i) {
+function criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario) {
     var props = {
+        key: i,
         notaAtual: listaNotas.pegaNota(i),
         adicionarNota: adicionarNota,
         removerNota: removerNota,
@@ -18790,8 +18805,8 @@ function SecaoNotas(_ref) {
 
     var props = { className: 'notes' };
 
-    var children = listaNotas.map(function (notaAtual, i) {
-        return criaFormNotas(i, props);
+    var children = listaNotas.pegaTodos().map(function (notaAtual, i) {
+        return criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario);
     });
 
     return _react2.default.createElement(_section2.default, props, children);
@@ -18816,8 +18831,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props, children) {
-  return _react2.default.createElement('section', props, children);
+exports.default = function (props) {
+  return _react2.default.createElement('section', props);
 };
 
 /***/ }),
@@ -18880,6 +18895,11 @@ var ListaNotas = function () {
         key: 'pegaNota',
         value: function pegaNota(posicao) {
             return this._listaInterna[posicao];
+        }
+    }, {
+        key: 'pegaTodos',
+        value: function pegaTodos() {
+            return this._listaInterna;
         }
     }, {
         key: 'contaTotal',

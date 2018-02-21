@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Page from './componentes/page'
+import Page from './page'
 
 ReactDOM.render(
     React.createElement(Page, null), 

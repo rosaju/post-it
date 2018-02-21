@@ -1,3 +1,3 @@
 import React from 'react'
 
-export default props => React.createElement('section', props)
+export default props => <section {...props} />

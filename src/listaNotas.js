@@ -1,36 +1,47 @@
-import Nota from './nota';
+import Nota from './nota.js'
+
 
 class ListaNotas {
     constructor(observador) {
-        this._observador = observador;
-        this._listaInterna = [];
+        this._listaInterna = []
+        this._observador = observador
     }
 
     adicionaNota(novoTitulo, novoTexto) {
-        let nota = new Nota(novoTitulo, novoTexto);
-        this._listaInterna.push(nota);
-        this._observador(this);
+        let nota = new Nota(this._listaInterna.length, novoTitulo, novoTexto)
+        this._listaInterna = this._listaInterna.concat(nota)
+        this._observador(this)
     }
 
     removeNota(posicao) {
-        this._listaInterna.splice(posicao, 1);
-        this._observador(this);   
+        this._listaInterna = this._listaInterna.filter(nota => nota.posicao !== posicao)
+        this._observador(this)
     }
 
     editaNota(posicao) {
-        this._listaInterna[posicao].editando = true;
-        this._observador(this);
+        this._listaInterna = this._listaInterna.map(nota => {
+            if (nota.posicao === posicao) {
+                return new Nota(posicao, nota.titulo, nota.texto, true)
+            } else {
+                return nota
+            }
+        })
+        this._observador(this)
     }
 
     salvaNota(posicao, novoTitulo, novoTexto) {
-        this._listaInterna[posicao].titulo = novoTitulo;
-        this._listaInterna[posicao].texto = novoTexto;
-        this._listaInterna[posicao].editando = false;
-        this._observador(this);
+        this._listaInterna = this._listaInterna.map(nota => {
+            if (nota.posicao === posicao) {
+                return new Nota(posicao, novoTitulo, novoTexto, false)
+            } else {
+                return nota
+            }
+        })
+        this._observador(this)
     }
 
     pegaNota(posicao) {
-        return this._listaInterna[posicao];
+        return this._listaInterna[posicao]
     }
 
     pegaTodos() {
@@ -38,8 +49,8 @@ class ListaNotas {
     }
 
     contaTotal() {
-        return this._listaInterna.length;
+        return this._listaInterna.length
     }
-}
+};
 
-export default ListaNotas;
+export default ListaNotas

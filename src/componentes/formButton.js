@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default props => React.createElement('button', props)
+const FormButton = props => React.createElement('button', props)
+
+export default FormButton
 
 
 /* 

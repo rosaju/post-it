@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default props => React.createElement('textarea', props)
+const FormTextarea = props => React.createElement('textarea', props)
+
+export default FormTextarea
 
 /*
 function FormTextarea(props) { //<textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>

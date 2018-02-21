@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default props => React.createElement('input', props)
+const FormInput = props => React.createElement('input', props)
+
+export default FormInput
 
 /*
 function FormInput(props) { // <input class="note__title" type="text" name="titulo" value="${notaAtual.titulo}" placeholder="Título">

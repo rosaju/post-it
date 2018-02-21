@@ -18620,9 +18620,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var FormInput = function FormInput(props) {
     return _react2.default.createElement('input', props);
 };
+
+exports.default = FormInput;
 
 /*
 function FormInput(props) { // <input class="note__title" type="text" name="titulo" value="${notaAtual.titulo}" placeholder="Título">
@@ -18661,9 +18663,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var FormTextarea = function FormTextarea(props) {
     return _react2.default.createElement('textarea', props);
 };
+
+exports.default = FormTextarea;
 
 /*
 function FormTextarea(props) { //<textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>
@@ -18697,9 +18701,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var FormButton = function FormButton(props) {
     return _react2.default.createElement('button', props);
 };
+
+exports.default = FormButton;
 
 /* 
 function FormButton(props) { 
@@ -18733,9 +18739,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var Form = function Form(props) {
     return _react2.default.createElement('form', props);
 };
+
+exports.default = Form;
 
 /*
 function Form(props); {

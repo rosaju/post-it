@@ -1,19 +1,5 @@
 import React from 'react'
 
-export default props => React.createElement('button', props)
+const FormButton = ({ children, ...props }) => <button {...props}>{children}</button>
 
-
-/* 
-function FormButton(props) { 
-    let formButton = document.createElement('button');
-    formButton.setAttribute('class', props.className);
-    formButton.setAttribute('type', props.type);
-    formButton.addEventListener('click', props.click);
-
-    formButton.innerHTML = props.children;
-
-    return formButton;
-}
-
-export default FormButton;
-*/ 
+export default FormButton

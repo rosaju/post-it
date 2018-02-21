@@ -12,7 +12,7 @@ function criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, edi
         posicao: i
     }
 
-    return React.createElement(FormNotas, props)
+    return <FormNotas {...props} />
 }
 
 function SecaoNotas({ listaNotas, adicionarNota, removerNota, editarFormulario }) {
@@ -20,7 +20,12 @@ function SecaoNotas({ listaNotas, adicionarNota, removerNota, editarFormulario }
 
     const children = listaNotas.pegaTodos().map((notaAtual, i) => criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario));
 
-    return React.createElement(Section, props, children);
+    return <Section {...props}>
+        {listaNotas.pegaTodos().map((notaAtual, i) => (
+            criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario
+        ))}
+
+    </Section>
 }
 
 export default SecaoNotas;

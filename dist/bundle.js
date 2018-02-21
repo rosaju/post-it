@@ -1126,22 +1126,14 @@ function FormNotas(_ref) {
 
     var props = { className: 'note' };
 
-    var children = void 0;
-
-    if (posicao === undefined) {
-        children = [inputTitulo, textareaTexto, buttonConcluido];
-    } else {
-        if (notaAlterada.editando) {
-            children = [buttonRemover, inputTitulo, textareaTexto, buttonConcluido];
-        } else {
-            children = [inputTitulo, textareaTexto];
-            props.onClick = function () {
-                return editarFormulario(posicao);
-            };
-        }
-    }
-
-    return _react2.default.createElement(_form2.default, props, children);
+    return _react2.default.createElement(
+        _form2.default,
+        props,
+        posicao !== undefined && notaCopiada.editando && buttonRemover,
+        inputTitulo,
+        textareaTexto,
+        (posicao !== undefined || notaCopiada.editando) && buttonConcluido
+    );
 }
 
 exports.default = FormNotas;
@@ -18592,9 +18584,13 @@ var Page = function (_React$Component) {
 
             var formNotas = montaFormNotas(this.adicionarNota, this.removerNota, this.editarFormulario);
             var sectionNotas = montaSectionNotas(this.state.listaNotas, this.adicionarNota, this.removerNota, this.editarFormulario);
-            var children = [formNotas, sectionNotas];
 
-            return _react2.default.createElement('main', props, children);
+            return _react2.default.createElement(
+                'main',
+                props,
+                formNotas,
+                sectionNotas
+            );
         }
     }]);
 
@@ -18611,7 +18607,7 @@ exports.default = Page;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(0);
@@ -18620,29 +18616,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-    return _react2.default.createElement('input', props);
+var FormInput = function FormInput(props) {
+  return _react2.default.createElement('input', props);
 };
 
-/*
-function FormInput(props) { // <input class="note__title" type="text" name="titulo" value="${notaAtual.titulo}" placeholder="Título">
-    let formInput = document.createElement('input');
-    formInput.setAttribute('class', props.className);
-    formInput.setAttribute('type', props.type);
-    formInput.setAttribute('name', props.name);
-    formInput.setAttribute('value', props.value);
-    formInput.setAttribute('placeholder', props.placeholder);
-
-    if (props.readonly) {
-        form.setAttribute('readonly', true);
-    }
-
-    return formInput;
-    
-}
-
-export default FormInput;
-*/
+exports.default = FormInput;
 
 /***/ }),
 /* 31 */
@@ -18652,7 +18630,7 @@ export default FormInput;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(0);
@@ -18661,24 +18639,20 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-    return _react2.default.createElement('textarea', props);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var FormTextarea = function FormTextarea(_ref) {
+  var children = _ref.children,
+      props = _objectWithoutProperties(_ref, ['children']);
+
+  return _react2.default.createElement(
+    'textarea',
+    props,
+    children
+  );
 };
 
-/*
-function FormTextarea(props) { //<textarea class="note__body" name="texto" rows="5" placeholder="Criar uma nota...">${notaAtual.texto}</textarea>
-    let formTextarea = document.createElement('textarea');
-    formTextarea.setAttribute('class', props.className);
-    formTextarea.setAttribute('name', props.name);
-    formTextarea.setAttribute('rows', props.rows);
-    formTextarea.setAttribute('placeholder', props.pleceholder);
-    formTextarea.innerText = props.innerText;
-
-    return formTextarea;
-}
-
-export default FormInput;
-*/
+exports.default = FormTextarea;
 
 /***/ }),
 /* 32 */
@@ -18688,7 +18662,7 @@ export default FormInput;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(0);
@@ -18697,24 +18671,20 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-    return _react2.default.createElement('button', props);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var FormButton = function FormButton(_ref) {
+  var children = _ref.children,
+      props = _objectWithoutProperties(_ref, ['children']);
+
+  return _react2.default.createElement(
+    'button',
+    props,
+    children
+  );
 };
 
-/* 
-function FormButton(props) { 
-    let formButton = document.createElement('button');
-    formButton.setAttribute('class', props.className);
-    formButton.setAttribute('type', props.type);
-    formButton.addEventListener('click', props.click);
-
-    formButton.innerHTML = props.children;
-
-    return formButton;
-}
-
-export default FormButton;
-*/
+exports.default = FormButton;
 
 /***/ }),
 /* 33 */
@@ -18733,109 +18703,29 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-    return _react2.default.createElement('form', props);
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var Form = function Form(_ref) {
+    var children = _ref.children,
+        props = _objectWithoutProperties(_ref, ['children']);
+
+    return _react2.default.createElement(
+        'form',
+        props,
+        children
+    );
 };
 
-/*
-function Form(props); {
-    let form = document.forms('form');
-    form.setAttribute('class', props.className);
-    form.setAttribute('editando', props.editando);
-
-    for (var i = 0; i < props.children.length; i++) {
-        form.appendchild(props.children[i]);
-
-    } 
-
-    if (props.click) {
-        form.addEventListener("click", props.click);
-    }
-
-    return form;
-
-}
-
-export default Form;
-*/
+exports.default = Form;
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _section = __webpack_require__(35);
-
-var _section2 = _interopRequireDefault(_section);
-
-var _formNotas = __webpack_require__(15);
-
-var _formNotas2 = _interopRequireDefault(_formNotas);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario) {
-    var props = {
-        key: i,
-        notaAtual: listaNotas.pegaNota(i),
-        adicionarNota: adicionarNota,
-        removerNota: removerNota,
-        editarFormulario: editarFormulario,
-        posicao: i
-    };
-
-    return _react2.default.createElement(_formNotas2.default, props);
-}
-
-function SecaoNotas(_ref) {
-    var listaNotas = _ref.listaNotas,
-        adicionarNota = _ref.adicionarNota,
-        removerNota = _ref.removerNota,
-        editarFormulario = _ref.editarFormulario;
-
-    var props = { className: 'notes' };
-
-    var children = listaNotas.pegaTodos().map(function (notaAtual, i) {
-        return criaFormNotas(i, listaNotas, notaAtual, adicionarNota, removerNota, editarFormulario);
-    });
-
-    return _react2.default.createElement(_section2.default, props, children);
-}
-
-exports.default = SecaoNotas;
+throw new Error("Module build failed: SyntaxError: C:/Users/05980940910/Desktop/post-it/src/componentes/secaoNotas.js: Unexpected token, expected , (26:10)\n\n\u001b[0m \u001b[90m 24 | \u001b[39m        {listaNotas\u001b[33m.\u001b[39mpegaTodos()\u001b[33m.\u001b[39mmap((notaAtual\u001b[33m,\u001b[39m i) \u001b[33m=>\u001b[39m (\n \u001b[90m 25 | \u001b[39m            criaFormNotas(i\u001b[33m,\u001b[39m listaNotas\u001b[33m,\u001b[39m notaAtual\u001b[33m,\u001b[39m adicionarNota\u001b[33m,\u001b[39m removerNota\u001b[33m,\u001b[39m editarFormulario\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 26 | \u001b[39m        ))}\n \u001b[90m    | \u001b[39m          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 27 | \u001b[39m\n \u001b[90m 28 | \u001b[39m    \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mSection\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 29 | \u001b[39m}\u001b[0m\n");
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement('section', props);
-};
-
-/***/ }),
+/* 35 */,
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 

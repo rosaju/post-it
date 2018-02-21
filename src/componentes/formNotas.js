@@ -88,20 +88,14 @@ function FormNotas({ notaAtual, posicao, adicionarNota, removerNota, editarFormu
 
     let props = { className: 'note' };
 
-    let children
-
-    if (posicao === undefined) {
-        children = [inputTitulo, textareaTexto, buttonConcluido]
-    } else {
-        if (notaAlterada.editando) {        
-            children = [buttonRemover, inputTitulo, textareaTexto, buttonConcluido];
-        } else {
-            children = [inputTitulo, textareaTexto];
-            props.onClick = () => editarFormulario(posicao);
-        }
-    }
-
-    return React.createElement(Form, props, children); 
+    return (
+        <Form {...props}>
+            {posicao !== undefined && notaCopiada.editando && buttonRemover}
+            {inputTitulo}
+            {textareaTexto}
+            {(posicao !== undefined || notaCopiada.editando) && buttonConcluido}
+        </Form>
+    )
 }
 
 export default FormNotas;

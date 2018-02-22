@@ -43,19 +43,19 @@ class Page extends React.Component {
     }
 
     adicionarNota(titulo, texto, posicao) {
-        if (this.state.listaNotas.pega(posicao)) {
-            this.state.listaNotas.salva(posicao, titulo, texto)
+        if (this.state.listaNotas.pegaNota(posicao)) {
+            this.state.listaNotas.salvaNota(posicao, titulo, texto)
         } else {
-            this.state.listaNotas.adiciona(titulo, texto)
+            this.state.listaNotas.adicionaNota(titulo, texto)
         }
     }
 
     removeNota(posicao) {
-        this.state.listaNotas.remove(posicao)
+        this.state.listaNotas.removeNota(posicao)
     }
 
     editarFormulario(posicao) {
-        this.state.listaNotas.edita(posicao)
+        this.state.listaNotas.editaNota(posicao)
     }
 
     render() {

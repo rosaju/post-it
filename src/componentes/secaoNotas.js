@@ -5,14 +5,15 @@ import FormNotas from './formNotas'
 
 function criaFormNotas(posicao, notaAtual, adicionarNota, removerNota, editarFormulario) {
     const props = {
-        posicao,
-        notaAtual,
-        removerNota,
-        adicionarNota,
-        editarFormulario,
+        key: posicao,
+        posicao: posicao,
+        notaAtual: listaNotas[posicao],
+        removerNota: removerNota,
+        adicionarNota: adicionarNota,
+        editarFormulario: editarFormulario,
     }
 
-    return <FormNotas key={posicao} {...props} />
+    return <FormNotas {...props} />
 }
 
 function SecaoNotas({ listaNotas, adicionarNota, removerNota, editarFormulario }) {
@@ -22,7 +23,10 @@ function SecaoNotas({ listaNotas, adicionarNota, removerNota, editarFormulario }
         criaFormNotas(posicao, notaAtual, adicionarNota, removerNota, editarFormulario)
     ))
 
-    return <Section {...props}>{children}</Section>
+    return <Section {...props}>
+        {listaNotas.map((notaAtual, posicao) => 
+            
+        )}
 }
 
 export default SecaoNotas

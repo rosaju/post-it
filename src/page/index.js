@@ -28,7 +28,7 @@ function montaSecaoNotas(listaNotas, adicionarNota, removeNota, editarFormulario
     return <SecaoNotas {...props} />
 }
 
-class Page extends React.Component {
+/*class Page extends React.Component {
     constructor(props) {
         super(props)
         this.atualizaPagina = this.atualizaPagina.bind(this);
@@ -56,11 +56,9 @@ class Page extends React.Component {
 
     editarFormulario(posicao) {
         this.state.listaNotas.editaNota(posicao)
-    }
+    }*/
 
-    render() {
-        const { state, adicionarNota, removeNota, editarFormulario } = this
-        const { listaNotas } = state
+    function Page({ listaNotas, adicionarNota, removeNota, editarFormulario }) {
         const props = { className: 'container' }
 
         let formNotas = montaFormNotas(adicionarNota, removeNota, editarFormulario)
@@ -73,6 +71,6 @@ class Page extends React.Component {
             </main>
         )
     }
-}
+
 
 export default Page

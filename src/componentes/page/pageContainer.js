@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { adicionarNota, removeNota, habilitarEdicao, alterarNota } from '../action'
 import Page from './index'
+import { adicionarNota, removerNota, habilitarEdicao, alterarNota } from '../../actions'
 
-const mapStateToProps = state => { listaNotas: state.notas }
+
+const mapStateToProps = state => ({ listaNotas: state.notas })
 
 const mapDispatchToProps = dispatch => (
     {
@@ -12,15 +13,15 @@ const mapDispatchToProps = dispatch => (
                 dispatch(adicionarNota(titulo, texto))
                 formulario.reset()
             } else {
-                dispatch(adicionarNota(posicao, titulo, texto))
+                dispatch(alterarNota(titulo, texto, posicao))
             }
         },
-        removeNota: (evento, posicao) => {
+        removerNota: (evento, posicao) => {
             evento.stopPropagation()
-            dispatch(removeNota(posicao))
+            dispatch(removerNota(posicao))
         },
         editarFormulario: posicao => {
-            editaNota(habilitarEdicao(posicao))
+            dispatch(habilitarEdicao(posicao))
         }
     }
 )

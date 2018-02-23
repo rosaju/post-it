@@ -1,8 +1,8 @@
 import React from 'react'
-import Nota from '../nota'
-import ListaNotas from '../listaNotas'
-import FormNotas from '../componentes/formNotas'
-import SecaoNotas from '../componentes/secaoNotas'
+import Nota from '../../nota'
+import ListaNotas from '../../listaNotas'
+import FormNotas from '../formNotas'
+import SecaoNotas from '../secaoNotas'
 import './page.css'
 
 
@@ -17,11 +17,11 @@ function montaFormNotas(adicionarNota, removeNota, editarFormulario) {
     return <FormNotas {...props} />
 }
 
-function montaSecaoNotas(listaNotas, adicionarNota, removeNota, editarFormulario) {
+function montaSecaoNotas(listaNotas, adicionarNota, removerNota, editarFormulario) {
     const props = {
         listaNotas, 
         adicionarNota,
-        removeNota, 
+        removerNota, 
         editarFormulario
     }
 
@@ -58,11 +58,10 @@ function montaSecaoNotas(listaNotas, adicionarNota, removeNota, editarFormulario
         this.state.listaNotas.editaNota(posicao)
     }*/
 
-    function Page({ listaNotas, adicionarNota, removeNota, editarFormulario }) {
+    function Page({ listaNotas, adicionarNota, removerNota, editarFormulario }) {
         const props = { className: 'container' }
-
-        let formNotas = montaFormNotas(adicionarNota, removeNota, editarFormulario)
-        let SecaoNotas = montaSecaoNotas(listaNotas, adicionarNota, removeNota, editarFormulario)
+        let formNotas = montaFormNotas(adicionarNota, removerNota, editarFormulario)
+        let SecaoNotas = montaSecaoNotas(listaNotas, adicionarNota, removerNota, editarFormulario)
 
         return (
             <main {...props}>

@@ -1,54 +1,49 @@
 import {
      ADICIONAR_NOTA, REMOVER_NOTA, HABILITAR_EDICAO, ALTERAR_NOTA
- } from './action'
+ } from './actions'
  import Nota from './nota'
 
 const estadoInicial = {
-    nota: []
+    notas: []
 }
 
 export default function postitApp(estadoAtual = estadoInicial, acao) {
     switch (acao.type) {
         case ADICIONAR_NOTA: 
             const novaNota = new Nota(acao.titulo, acao.texto)
-            const estadoNovo = {
-                notas:estadoAtual.notas.concat(novaNota)
+                        
+            return {
+                notas: estadoAtual.notas.concat(novaNota)
             }
-            return estadoNovo; 
 
         case REMOVER_NOTA:
-            const estadoNovo = {
-                notas: estadoAtual.notas.filter((nota, posicao) => {
-                    return posicao !== acao.posicao
-                })
-            }
-            return estadoNovo; 
+            return {
+                notas: estadoAtual.notas.filter((notaAtual, posicao) => posicao !== acao.posicao)
+            } 
 
         case HABILITAR_EDICAO:
-            const estadoNovo = {
-                notas: estadoAtual.notas.map((nota, posicao) => {
+            return {
+                notas: estadoAtual.notas.map((notaAtual, posicao) => {
                     if(posicao === acao.posicao) {
-                        return new Nota(nota.titulo, nota.texto, true);
+                        return new Nota(notaAtual.titulo, notaAtual.texto, true);
                     } else {
-                        return nota
+                        return notaAtual
                     }
                 })
             }
-            return estadoNovo;
-
+            
         case ALTERAR_NOTA:
-            const estadoNovo = {
-                notas: estadoAtual.notas.map((nota, posicao) => {
+            return {
+                notas: estadoAtual.notas.map((notaAtual, posicao) => {
                     if(posicao === acao.posicao) {
-                        return new Nota(nota.titulo, nota.texto, false)
+                        return new Nota(acao.titulo, acao.texto, false)
                     } else {
-                        return nota 
+                        return notaAtual 
                     }
                 })
             }
-            return estadoNovo; 
-
+            
         default: 
-            return state
+            return estadoAtual
     }
 }

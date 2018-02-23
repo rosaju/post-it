@@ -5,7 +5,7 @@ export const ALTERAR_NOTA = 'ALTERAR_NOTA'
 
 export function adicionarNota(titulo, texto) {
   return {
-    type: ADD_NOTA,
+    type: ADICIONAR_NOTA,
     titulo,
     texto
   }
@@ -13,7 +13,7 @@ export function adicionarNota(titulo, texto) {
 
 export function removerNota(posicao) {
     return {
-        type: REMOVER_EDICAO,
+        type: REMOVER_NOTA,
         posicao
     }
 }
